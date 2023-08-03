@@ -33,7 +33,7 @@ const removeProductFromCart = (req, res) => {
 
 const getProductsFromCart = (req, res) => {
     querySchema.userId = req.session.user.id;
-    cartQueries.getFromCartByCustomerId()
+    cartQueries.getFromCartByUserId()
     .then(data => res.send(data.rows));
 };
 
