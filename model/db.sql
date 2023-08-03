@@ -14,23 +14,22 @@ CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name varchar(50) UNIQUE NOT NULL,
     category varchar(20),
-    price money, 
+    price integer, 
     num_in_stock varchar(20), 
     img varchar(60)
 );
 
 CREATE TABLE carts (
-    id SERIAL PRIMARY KEY,
+    id SERIAL,
     user_id integer REFERENCES users(id), 
     product_id integer REFERENCES products(id) ON UPDATE CASCADE ON DELETE CASCADE,
     quantity integer
 );
 
 CREATE TABLE orders (
-    id SERIAL PRIMARY KEY,
+    id SERIAL,
     user_id integer REFERENCES users(id), 
-    cart_id integer REFERENCES carts(id),
-    total_cost money,
+    total_cost integer,
     date date,
     time time,
     payment_method varchar(20)
