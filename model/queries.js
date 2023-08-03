@@ -94,14 +94,14 @@ class Queries {
         try{
             const cart = await pool.query(`SELECT * FROM carts JOIN products ON carts.product_id = products.id WHERE user_id = ${this.schema.userId}`);
             if(!cart.rows[0]) return "Please create a new cart or add products to your cart";
-            let totalPrice = 0;
-            for (let item of cart.rows){totalPrice+=item.price};
-            if( totalPrice === 0 || totalPrice === NaN ) return "Please add items to your cart";
+            let totalCost = 0;
+            for (let item of cart.rows){totalCost+=item.price};
+            if( totalCost === 0 || totalCost === NaN ) return "Please add items to your cart";
             if(this.schema.paymentMethod==="Credit card"){
                 if(!validateCreditCard(this.schema.creditCardNumber)) return "Please enter a valid credit card number";
             };
             const d = new Date();
-            await pool.query(`INSERT INTO orders (user_id, cart_id, total_cost, date, time, payment_method) VALUES (${this.schema.userId}, ${this.schema.cartId}, ${totalCost}, '${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}', '${d.getHours()}${d.getMinutes()}', '${this.schema.paymentMethod}')`);
+            await pool.query(`INSERT INTO orders (user_id, total_cost, date, time, payment_method) VALUES (${this.schema.userId}, ${totalCost}, '${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}', '${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}', '${this.schema.paymentMethod}')`);
             await pool.query(`DELETE FROM carts WHERE user_id=${this.schema.userId}`);
             return 'Your order has been placed!';
         } catch(err) {
