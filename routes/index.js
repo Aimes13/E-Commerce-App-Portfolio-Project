@@ -3,7 +3,7 @@ const {registerUser} = require('../controllers/register');
 const {authenticateUser, logout} = require('../controllers/login');
 const {getAllProducts, getProductsByCategory, getProductByName} = require('../controllers/products');
 const {newCart, addProductToCart, removeProductFromCart, getProductsFromCart, placeOrder} = require('../controllers/cart');
-const {getOrderHistory} = require('../controllers/users');
+const {getUserById, /*updateUser,*/ deleteUser, getOrderHistory} = require('../controllers/users');
 
 // Create route for user login
 const loginRouter = express.Router();
@@ -16,6 +16,12 @@ logoutRouter.get('/', logout);
 // Create route for user registration
 const registerRouter = express.Router();
 registerRouter.post('/', registerUser);
+
+// Create routes for user activity
+const userRouter = express.Router();
+userRouter.get('/:userId', getUserById);
+//userRouter.put('/:userId', updateUser);
+userRouter.delete('/:userId', deleteUser);
 
 // Create routes for product activity
 const productsRouter = express.Router();
@@ -40,6 +46,7 @@ module.exports = {
     logoutRouter,
     productsRouter,
     registerRouter,
+    userRouter,
     cartRouter,
     ordersRouter
 };
