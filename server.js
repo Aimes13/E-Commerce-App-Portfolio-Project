@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const {loginRouter, logoutRouter, productsRouter, registerRouter, cartRouter, ordersRouter} = require('./routes/index');
+const {loginRouter, logoutRouter, productsRouter, registerRouter, userRouter, cartRouter, ordersRouter} = require('./routes/index');
 const {checkIfAuthenticated} = require('./controllers/login');
 
 app.options('*', cors());
@@ -29,6 +29,7 @@ app.use(session({
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/register', registerRouter);
+app.use('/user', userRouter);
 app.use('/products', checkIfAuthenticated, productsRouter);
 app.use('/cart', checkIfAuthenticated, cartRouter);
 app.use('/order', checkIfAuthenticated, ordersRouter);
