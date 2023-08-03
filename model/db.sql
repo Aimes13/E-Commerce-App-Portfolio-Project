@@ -11,7 +11,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE products (
-    id integer PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name varchar(50) UNIQUE NOT NULL,
     category varchar(20),
     price money, 
@@ -27,7 +27,7 @@ CREATE TABLE carts (
 );
 
 CREATE TABLE orders (
-    id varchar(10) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     user_id integer REFERENCES users(id), 
     cart_id integer REFERENCES carts(id),
     total_cost money,
