@@ -50,6 +50,34 @@ class Queries {
         return false;
     }
 
+    // To get the user information by ID
+    async getUserById(){
+        const user = await pool.query(`SELECT username, email, firstname, lastname, telephone, address FROM users WHERE id = ${this.schema.userId}`);
+        return user;
+    };
+
+    // To update user information by user ID
+    /*async updateUser(){
+        const { telephone, address } = this.schema;
+        try {
+            const updatedUser = await pool.query(`UPDATE users SET telephone = ${telephone}, address = ${address} WHERE id = ${this.schema.userId}`);
+            return updatedUser; 
+        } catch(err){
+            return {err: true, msg: err.msg};
+        }
+    };*/
+    
+    // To delete user account by user ID
+    async deleteUser(){
+        try {
+            const updatedUser = pool.query(`DELETE FROM users WHERE id = ${this.schema.userId} RETURNING *`);
+            if(!updatedUser.rows[0]) return 'This user does not exist!';
+            return updatedUser;
+            } catch(err){
+                return {err: true, msg: err.msg};
+        }
+    };
+
     // To get cart by user ID
     async getFromCartByUserId(){
         const cart = await pool.query(`SELECT * FROM carts WHERE user_id = ${this.schema.userId}`);
