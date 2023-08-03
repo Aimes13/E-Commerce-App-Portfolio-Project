@@ -8,20 +8,20 @@ class Queries {
     }
 
     // Get all products from schema
-    async getAllProducst(){
+    async getAllFromSchema(){
         const products = await pool.query(`SELECT * FROM ${this.schema.name}`);
         return products.rows;
     }
 
     // Get products by category
-    async getProductsByCategory(){
+    async getFromSchemaByCategory(){
         const products = await pool.query(`SELECT * FROM ${this.schema.name} WHERE category = '${this.schema.category}'`);
         if(!products.rows[0]) return {error: true, message: "Please select a valid category"};
         return {error: false, products};
     }
 
     // Get products by name
-    async getProductsByName(){
+    async getFromSchemaByName(){
         const products = await pool.query(`SELECT * FROM ${this.schema.name} WHERE name = '${this.schema.product}'`);
         return products;
     }
