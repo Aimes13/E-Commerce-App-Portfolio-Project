@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const {loginRouter, logoutRouter, productsRouter, registerRouter, cartRouter, ordersRouter} = require('./routes/index');
+const {checkIfAuthenticated} = require('./controllers/login');
 
 app.options('*', cors());
 app.enable("trust proxy", 1);
@@ -24,6 +26,13 @@ app.use(session({
     store,
 }));
 
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/register', registerRouter);
+app.use('/products', checkIfAuthenticated, productsRouter);
+app.use('/cart', checkIfAuthenticated, cartRouter);
+app.use('/order', checkIfAuthenticated, ordersRouter);
+
 app.use((err, req, res, next) => {
     res.send(err.message);
 });
@@ -31,4 +40,3 @@ app.use((err, req, res, next) => {
 app.listen(port, ()=> {
     console.log(`E-Commerce App listening on port ${port}`);
 });
-
