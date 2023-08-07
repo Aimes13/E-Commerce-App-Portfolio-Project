@@ -20,7 +20,10 @@ const getProductsByCategory = (req, res) => {
 const getProductByName = (req, res) => {
     querySchema.product = req.params.name;
     productQueries.getFromSchemaByName()
-    .then(data => res.send(data.rows[0]));
+    .then(data => {
+        if(data.error) return res.send(data.message);
+        res.send(data.rows[0]);
+    });
 };
 
 module.exports = {

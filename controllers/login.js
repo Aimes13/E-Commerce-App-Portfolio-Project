@@ -34,7 +34,7 @@ const checkIfAuthenticated = (req, res, next) => {
 
 const logout = (req, res) => {
     req.session.authenticated = false;
-    res.send("You have logged out succesfully!");
+    res.send("You have logged out successfully!");
 };
 
 module.exports = {
