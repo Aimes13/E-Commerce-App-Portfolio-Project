@@ -1,0 +1,436 @@
+openapi: 3.0.1
+info:
+  title: E-Commerce Portfolio Project App
+  version: 1.0.0
+  description: RESTful E-Commerce API with Node.js, Express and PostgreSQL
+  contact:
+    email: annemariemakombe@gmail.com
+    name: Anne-Marie Makombe
+    url: https://aimes13.github.io/Anne-Marie-Makombe-Portfolio/
+paths:
+  /login:
+    summary: Logs in a user.
+    description: For logging in a user using their username and password.
+    post:
+      summary: Logs in a user.
+      description: Allows user to login using username and password.
+      operationId: login_user
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: '"You have logged in successfully!"'
+                Incorrect username/password:
+                  value: '"Incorrect username and/or password"'
+                Unsuccessful Response:
+                  value: '"User does not exist"'
+      tags:
+        - Login
+  /logout:
+    summary: Logs out a user.
+    description: For logging out a user from their account.
+    get:
+      summary: Logs out user.
+      description: Allows a user to logout of their user account.
+      operationId: logout_user
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: '"You have logged out successfully!"'
+      tags:
+        - Logout
+  /register:
+    summary: Registers a new user account.
+    description: >-
+      For registering a new user using their username, password, email, first
+      name and last name.
+    post:
+      summary: Registers new user
+      description: Allows a user to register a new account.
+      operationId: register_user
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: '"You have been registered successfully!"'
+                Unsuccessful Response:
+                  value: >-
+                    "A problem occurred. Please try a different username and/or
+                    password"
+      tags:
+        - Register
+  /user/:userId:
+    summary: Gets user by ID.
+    description: For retrieving user information based on user ID.
+    get:
+      summary: Gets user account
+      description: Allows user to retrieve their account from the API.
+      operationId: get_user
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    {
+                            "username": "Aimes13",
+                            "email": "aimes@me.com",
+                            "firstname": "Anne-Marie",
+                            "lastname": "Makombe",
+                            "telephone": null,
+                            "address": null
+                        }
+            text/plain; charset=utf-8:
+              examples:
+                Unsuccessful Response:
+                  value: '"User does not exist!"'
+      tags:
+        - User
+    delete:
+      summary: Deletes user account
+      description: Allows user to delete their account from the API.
+      operationId: delete_user
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: '"You have successfully deleted your account!"'
+                Unsuccessful Response:
+                  value: '"User does not exist"'
+      tags:
+        - User
+  /products:
+    summary: Gets all products.
+    description: For retrieving all the product details from the database.
+    get:
+      summary: Gets all products
+      description: Allows user to get a list of all products on the API.
+      operationId: get_all_products
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    [
+                        {
+                            "id": 1,
+                            "name": "raspberries",
+                            "category": "food",
+                            "price": 11,
+                            "num_in_stock": "23",
+                            "img": null
+                        },
+                        {
+                            "id": 2,
+                            "name": "red wine",
+                            "category": "beverages",
+                            "price": 86,
+                            "num_in_stock": "9",
+                            "img": null
+                        },
+                        {
+                            "id": 3,
+                            "name": "yellow crocs",
+                            "category": "clothing",
+                            "price": 24,
+                            "num_in_stock": "17",
+                            "img": null
+                        },
+                        {
+                            "id": 4,
+                            "name": "lindt chocolate",
+                            "category": "food",
+                            "price": 20,
+                            "num_in_stock": "5",
+                            "img": null
+                        }
+                    ]
+      tags:
+        - Products
+  /products/:category:
+    summary: Gets products by category.
+    description: For retrieving all products in a specific category.
+    get:
+      summary: Gets products by category
+      description: >-
+        Allows user to get a list of all products from the database in a
+        specific category.
+      operationId: get_products_by_category
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    [
+                        {
+                            "id": 1,
+                            "name": "raspberries",
+                            "category": "food",
+                            "price": 11,
+                            "num_in_stock": "23",
+                            "img": null
+                        },
+                        {
+                            "id": 4,
+                            "name": "lindt chocolate",
+                            "category": "food",
+                            "price": 20,
+                            "num_in_stock": "5",
+                            "img": null
+                        }
+                    ]
+            text/plain; charset=utf-8:
+              examples:
+                Unsuccessful Response:
+                  value: '"Please select a valid category"'
+      tags:
+        - Products
+  /products/exact/:name:
+    summary: Gets products by name.
+    description: For retrieving a products using its specific name.
+    get:
+      summary: Get products by name
+      description: Allows users to retrieve a specific product by name from the database.
+      operationId: get_product_by_name
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    {
+                        "id": 4,
+                        "name": "lindt chocolate",
+                        "category": "food",
+                        "price": 20,
+                        "num_in_stock": "5",
+                        "img": null
+                    }
+            text/plain; charset=utf-8:
+              examples:
+                Unsuccessful Response:
+                  value: '"Product does not exist!"'
+      tags:
+        - Products
+  /cart:
+    summary: Gets products from cart.
+    description: For retrieving the list of products in an existing cart.
+    get:
+      summary: Gets all products in current cart
+      description: Allows user to get all products in their current cart.
+      operationId: get_cart
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    [
+                        {
+                            "id": 3,
+                            "user_id": 1,
+                            "product_id": 2,
+                            "quantity": 1
+                        },
+                        {
+                            "id": 3,
+                            "user_id": 1,
+                            "product_id": 1,
+                            "quantity": 1
+                        },
+                        {
+                            "id": 3,
+                            "user_id": 1,
+                            "product_id": 4,
+                            "quantity": 1
+                        },
+                        {
+                            "id": 3,
+                            "user_id": 1,
+                            "product_id": 4,
+                            "quantity": 1
+                        }
+                    ]
+      tags:
+        - Cart
+    put:
+      summary: Adds product to cart
+      description: Allows user to add a product to their current cart.
+      operationId: add_product_to_cart
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: You have successfully added the product to your cart!
+                Cart Error Response:
+                  value: Please create a new cart first!
+                Product Error Response:
+                  value: Please enter a valid product ID
+      tags:
+        - Cart
+  /cart/new_cart:
+    summary: Creates a new cart.
+    description: For creating a new cart in a user account.
+    post:
+      summary: Create a new cart
+      description: Allows user to initialize a new cart for shopping.
+      operationId: new_cart
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: "Cart successfully created! Enjoy your shopping!"
+                Cart Exists Response:
+                  value: >-
+                    "You already have an existing cart. You can continue
+                    shopping."
+      tags:
+        - Cart
+  /cart/place_order:
+    summary: Checks out a cart.
+    description: For checking out all items in a cart and placing an order in user account.
+    post:
+      summary: Places an order and checks out cart
+      description: Allows user to checkout their cart and place an order.
+      operationId: place_order
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: '"Your order has been placed!"'
+                Empty/Non-existent Cart Error Response:
+                  value: '"Please create a new cart or add products to your cart"'
+                Empty Cart Error Response:
+                  value: '"Please add items to your cart"'
+                Invalid Credit Card Error Response:
+                  value: '"Please enter a valid credit card number"'
+      tags:
+        - Cart
+  /cart/:productId:
+    summary: Removes cart item.
+    description: For removing a product with a specific product ID from the cart.
+    delete:
+      summary: Removes product from cart
+      description: Allows user to remove a product from their cart.
+      operationId: delete_from_cart
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                Successful Response:
+                  value: "Successfully removed product from cart"
+      tags:
+        - Cart
+  /order/history:
+    summary: Gets order history.
+    description: For retrieving order history information from a user account.
+    get:
+      summary: Gets order history
+      description: >-
+        Allows user to retrieve their order history information from the
+        database.
+      operationId: get_order_history
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                Successful Response:
+                  value: |-
+                    [
+                        {
+                            "id": 1,
+                            "user_id": 1,
+                            "total_cost": "$298.00",
+                            "date": "2023-08-03T16:00:00.000Z",
+                            "time": "00:11:50",
+                            "payment_method": "undefined"
+                        },
+                        {
+                            "id": 2,
+                            "user_id": 1,
+                            "total_cost": "$44.00",
+                            "date": "2023-08-03T16:00:00.000Z",
+                            "time": "00:21:53",
+                            "payment_method": "undefined"
+                        }
+                    ]
+            text/plain; charset=utf-8:
+              examples:
+                Unsuccessful Response:
+                  value: '"No order history! Please make a purchase first!"'
+      tags:
+        - Orders
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+    CartPut:
+      type: object
+      properties:
+        productId:
+          type: integer
+        quantity:
+          type: integer
+    PlaceOrder:
+      type: object
+      properties:
+        paymentMethod:
+          type: string
+        creditCardNumber:
+          type: string

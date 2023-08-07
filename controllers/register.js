@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
                 req.session.user = data.data;
                 req.session.authenticated = true;
                 console.log(req.session);
-                res.send('You have been registered successfuly!');
+                res.send('You have been registered successfully!');
             } else {
                 res.send(data.errorMessage);
             };
