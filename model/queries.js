@@ -23,7 +23,8 @@ class Queries {
     // Get products by name
     async getFromSchemaByName(){
         const products = await pool.query(`SELECT * FROM ${this.schema.name} WHERE name = '${this.schema.product}'`);
-        return products;
+        if(!products.rows[0]) return {error: true, message: "Product does not exist!"};
+        return {error: false, products};
     }
 
     // To register a new user
@@ -71,7 +72,7 @@ class Queries {
     async deleteUser(){
         try {
             const updatedUser = pool.query(`DELETE FROM users WHERE id = ${this.schema.userId} RETURNING *`);
-            if(!updatedUser.rows[0]) return 'This user does not exist!';
+            if(!updatedUser.rows[0]) return 'User does not exist!';
             return updatedUser;
             } catch(err){
                 return {err: true, msg: err.msg};
